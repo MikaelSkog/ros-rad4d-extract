@@ -29,4 +29,4 @@ With ROS running, ensure that the desired point clouds, as well as camera info, 
 ```
 rosrun rad4d_extract extract_pcd.py </pointcloud2/topic> </camera/info/topic> <pcd/destination/directory>
 ```
-If you see warnings stating that the point cloud queue is too long (and you are publishing the point clouds by replaying ROS bags), consider replaying the ROS bags at a lower playback speed until the warnings disappear.
+If you see warnings stating that the point cloud queue is too long (and you are publishing the point clouds by replaying ROS bags), consider lowering the playback speed until the warnings disappear.
