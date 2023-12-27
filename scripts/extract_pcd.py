@@ -73,14 +73,21 @@ class Extractor:
                 curr_point.header.frame_id = pcd2_msg.header.frame_id
                 curr_point.header.stamp = timestamp
                 point_array = np.asarray(open3d_cloud.points)
-                uv_points = np.empty((len(point_array), 5))
+                uv_points = []
+                
                 # Project each point in the point cloud onto the image plane.
                 for i, point in enumerate(point_array):
                     curr_point.point.x, curr_point.point.y, curr_point.point.z = point
                     curr_point_proj = do_transform_point(curr_point, transform)
                     uv_rect = self.cam_model.project3dToPixel(np.array([curr_point_proj.point.x, curr_point_proj.point.y, curr_point_proj.point.z]))
+                    
                     z_range = sqrt(pow(point[0], 2) + pow(point[1], 2) + pow(point[2], 2))
-                    uv_points[i] = [uv_rect[0], uv_rect[1], z_range, power_of_points[i], doppler_of_points[i]]
+                    # Add point to uv_points only if z_range >= 5.
+                    if z_range >= 5:
+                        uv_points.append([uv_rect[0], uv_rect[1], z_range, power_of_points[i], doppler_of_points[i]])
+                
+                # Convert the list to a NumPy array.
+                uv_points = np.array(uv_points)
 
                 # Get the timestamp in milliseconds as a string with 9 decimal places
                 # and with '_' as the decimal separator.
