@@ -96,7 +96,7 @@ class Extractor:
                 pcd_to_save = o3d.geometry.PointCloud()
                 pcd_to_save.points = o3d.utility.Vector3dVector(uv_points[:, :3]) # x, y, z
                 # power and Doppler
-                doppler_and_power = np.column_stack((power_of_points, doppler_of_points, np.zeros_like(power_of_points)))
+                doppler_and_power = np.column_stack((uv_points[:, 3], uv_points[:, 4], np.zeros_like(uv_points[:, 3])))
                 pcd_to_save.normals = o3d.utility.Vector3dVector(doppler_and_power)
                 # Save the point cloud
                 filename = timestamp_string + '.pcd'
