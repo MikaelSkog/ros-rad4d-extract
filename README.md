@@ -1,5 +1,5 @@
 # ros-rad4d-extract
-Python 3 scripts for ROS nodes that extracts and then saves images and point clouds published on ROS.
+Python 3 scripts for ROS nodes that extract and then save images and point clouds published on ROS. The saved images and PCD files are to be used as input for tmva4d-compile-dataset.
 
 ## Getting Started
 ### Prerequisites
@@ -29,4 +29,4 @@ With ROS running, ensure that the desired point clouds, as well as camera info, 
 ```
 rosrun rad4d_extract extract_pcd.py </pointcloud2/topic> </camera/info/topic> <pcd/destination/directory>
 ```
-If you see warnings stating that the point cloud queue is too long (and you are publishing the point clouds by replaying ROS bags), consider lowering the playback speed until the warnings disappear.
+If you see warnings stating that the point cloud queue is too long (and you are publishing the point clouds by replaying ROS bags), consider lowering the playback speed until the warnings disappear. Note that the camera info topic should correspond to the camera whose images are published on the image topic. Also note that transforms must exist from the point clouds to the camera frame.
