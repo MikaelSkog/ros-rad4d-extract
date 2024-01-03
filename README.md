@@ -11,7 +11,7 @@ pip3 install numpy opencv-python open3d
 ### Installation
 1. Clone the repo into the _src_ folder of your ROS Catkin workspace:
    ```
-   git clone https://github.com/MikaelSkog/ros-rad4d-extract.git
+   git clone https://github.com/MikaelSkog/tmva4d-ros-extract.git
    ```
 2. Build this package in your Catkin workspace. In your workspace directory, execute
    ```
