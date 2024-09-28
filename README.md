@@ -1,5 +1,5 @@
 # ros-rad4d-extract
-Python 3 scripts for ROS nodes that extract and then save images and point clouds published on ROS. The saved images and PCD files are to be used as input for tmva4d-compile-dataset.
+Python 3 scripts for ROS1 nodes that extract and then save images and point clouds published on ROS. The saved images and PCD files are to be used as input for tmva4d-compile-dataset.
 
 ## Getting Started
 ### Prerequisites
