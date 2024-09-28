@@ -93,17 +93,29 @@ class Extractor:
                 # and with '_' as the decimal separator.
                 timestamp_string = "{:.9f}".format(timestamp.to_sec()).replace('.', '_')
 
+                # Write x, y, and z (range) values to the PCD file
                 pcd_to_save = o3d.geometry.PointCloud()
-                pcd_to_save.points = o3d.utility.Vector3dVector(uv_points[:, :3]) # x, y, z
-                # power and Doppler
-                doppler_and_power = np.column_stack((uv_points[:, 3], uv_points[:, 4], np.zeros_like(uv_points[:, 3])))
-                pcd_to_save.normals = o3d.utility.Vector3dVector(doppler_and_power)
+                pcd_to_save.points = o3d.utility.Vector3dVector(uv_points[:, :3])
+
+                # Write power and Doppler values to the PCD file
+                power_and_doppler = np.column_stack((uv_points[:, 3], uv_points[:, 4], np.zeros_like(uv_points[:, 3])))
+                pcd_to_save.normals = o3d.utility.Vector3dVector(power_and_doppler)
+
                 # Save the point cloud
                 filename = timestamp_string + '.pcd'
                 if o3d.io.write_point_cloud(os.path.join(self.pcd_dir_path, filename), pcd_to_save, write_ascii=True):
                     rospy.loginfo("Saved point cloud " + filename + ".")
                 else:
                     rospy.logwarn("Warning: Failed to save point cloud " + filename + ".")
+
+                # Read the content of the temporary file
+                with open(os.path.join(self.pcd_dir_path, filename), 'r+') as f:
+                    content = f.readlines()
+                    f.seek(0)
+                    # Modify the third line of the file to change the field header from x, y, z, normal_x, normal_y,
+                    # normal_z to x, y, z, power, doppler, unused
+                    content[2] = "FIELDS x y z power doppler unused\n"
+                    f.writelines(content)
 
     def cam_info_callback(self, cam_info_msg):
         self.cam_model.fromCameraInfo(cam_info_msg)
